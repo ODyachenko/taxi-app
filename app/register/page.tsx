@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import RegisterForm from '@/components/Forms/RegisterForm';
-import './styles.scss';
 
 const page: FC = () => {
   return (

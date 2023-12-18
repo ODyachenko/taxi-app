@@ -4,7 +4,7 @@ import { BtnProps } from '@/types';
 
 const Btn: FC<BtnProps> = ({ value, weigth, handler }) => {
   return (
-    <button className={`btn ${weigth}`} onClick={handler}>
+    <button className={`btn ${weigth}`} type="submit" onClick={handler}>
       {value}
     </button>
   );

@@ -5,7 +5,8 @@ export type BtnProps = {
 };
 
 export type Field = {
-  type: 'text' | 'email' | 'password' | 'number';
+  className?: string;
+  type: 'text' | 'email' | 'password' | 'number' | 'search';
   placeholder: string;
   handler?: () => void;
 };

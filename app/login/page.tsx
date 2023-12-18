@@ -1,6 +1,5 @@
 import LoginForm from '@/components/Forms/LoginForm';
 import React, { FC } from 'react';
-import './styles.scss';
 
 const page: FC = () => {
   return (

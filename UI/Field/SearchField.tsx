@@ -2,9 +2,13 @@ import React, { FC } from 'react';
 import Field from './Field';
 import './styles.scss';
 
-const SearchField: FC = () => {
+type SearchFieldProps = {
+  handler?: () => void;
+};
+
+const SearchField: FC<SearchFieldProps> = ({ handler }) => {
   return (
-    <label className="search">
+    <label className="search" onClick={handler}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="21"
