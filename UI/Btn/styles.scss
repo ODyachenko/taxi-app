@@ -1,0 +1,28 @@
+.btn {
+  display: block;
+  max-width: 340px;
+  color: #fff;
+  text-align: center;
+  background: #34d186;
+  border-radius: 100px;
+
+  padding: 15px 10px;
+
+  &.bold {
+    font-weight: 600;
+  }
+  &.light {
+    font-weight: 300;
+  }
+}
+
+@media (min-width: 1024px) {
+  .btn {
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #2aa86c;
+    }
+  }
+}
