@@ -1,4 +1,4 @@
-import Logo from '@/UI/Btn/Logo';
+import Logo from '@/UI/Logo';
 import React, { FC } from 'react';
 import './styles.scss';
 

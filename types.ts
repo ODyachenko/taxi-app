@@ -3,3 +3,9 @@ export type BtnProps = {
   weigth: string;
   handler?: () => void;
 };
+
+export type Field = {
+  type: 'text' | 'email' | 'password' | 'number';
+  placeholder: string;
+  handler?: () => void;
+};
