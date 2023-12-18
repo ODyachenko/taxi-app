@@ -1,4 +1,5 @@
 import Btn from '@/UI/Btn/Btn';
+import Logo from '@/UI/Btn/Logo';
 import Image from 'next/image';
 
 export default function Home() {
