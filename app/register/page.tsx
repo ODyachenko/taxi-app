@@ -1,12 +1,12 @@
-import LoginForm from '@/components/Forms/LoginForm';
 import React, { FC } from 'react';
+import RegisterForm from '@/components/Forms/RegisterForm';
 import './styles.scss';
 
 const page: FC = () => {
   return (
-    <section className="login block">
+    <section className="register block">
       <div className="container">
-        <LoginForm />
+        <RegisterForm />
       </div>
     </section>
   );
