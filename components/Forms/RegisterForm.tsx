@@ -4,12 +4,13 @@ import React, { FC, useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Field from '@/UI/Field/Field';
 import Btn from '@/UI/Btn/Btn';
-import './styles.scss';
 import Image from '@/node_modules/next/image';
 import useCheckAuth from '@/hooks/useCheckAuth';
 import { useAppSelector } from '@/hooks/hooks';
 import { redirect } from '@/node_modules/next/navigation';
 import { supabase } from '@/supabase/settings';
+import { v4 } from 'uuid';
+import './styles.scss';
 
 type Inputs = {
   avatarUrl?: string;
@@ -26,9 +27,8 @@ const RegisterForm: FC = () => {
     formState: { errors },
   } = useForm<Inputs>({ mode: 'onChange' });
 
-  // const [uploadImage] = useUploadImageMutation();
   const [avatar, setAvatar] = useState(
-    `${process.env.NEXT_PUBLIC_supabaseUrl}/storage/v1/object/public/avatars/avatar_private.png?t=2023-12-18T13%3A24%3A17.910Z`
+    `${process.env.NEXT_PUBLIC_AVATARS_STORAGE}/avatar_private.png?t=2023-12-18T13%3A24%3A17.910Z`
   );
   const { isAuth } = useAppSelector((state) => state.user);
 
@@ -45,25 +45,33 @@ const RegisterForm: FC = () => {
         options: {
           data: {
             fullName: formData.fullName,
-            avatarUrl: formData.avatarUrl,
+            avatarUrl: avatar,
           },
         },
       });
       if (error) {
         throw error;
       }
-      redirect('/');
+      console.log(data);
     } catch (error) {
       console.error(error);
+      alert(error.message);
     }
   };
 
   const handleChangeFile = async (event: any) => {
     try {
-      const formData = new FormData();
-      formData.append('image', event.target.files[0]);
-      // const { data }: any = await uploadImage(formData);
-      // setAvatar(`${process.env.NEXT_PUBLIC_API_URL}${data.url}`);
+      const avatarFile = event.target.files[0];
+      const { data, error } = await supabase.storage
+        .from('avatars')
+        .upload(`${v4()}`, avatarFile, {
+          cacheControl: '3600',
+          upsert: false,
+        });
+      if (error) {
+        throw error;
+      }
+      setAvatar(`${process.env.NEXT_PUBLIC_AVATARS_STORAGE}/${data.path}`);
     } catch (error) {
       console.error(error);
     }
@@ -122,7 +130,7 @@ const RegisterForm: FC = () => {
         register={{
           ...register('password', {
             required: 'This field is required',
-            minLength: { value: 5, message: 'Min length is 5' },
+            minLength: { value: 6, message: 'Min length is 6' },
           }),
         }}
       />

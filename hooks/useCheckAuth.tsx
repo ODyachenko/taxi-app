@@ -18,9 +18,6 @@ const useCheckAuth = () => {
       dispatch(setCurrentUser(userData));
     }
   }, []);
-  //   return (
-  //     <div>useCheckAuth</div>
-  //   )
 };
 
 export default useCheckAuth;

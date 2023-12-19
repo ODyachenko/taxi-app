@@ -35,12 +35,13 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<Inputs> = async (formData: Inputs) => {
     try {
       const { data, error } = await supabase.auth.signInWithPassword(formData);
+
       if (error) {
         throw error;
       }
-      redirect('/');
     } catch (error) {
       console.error(error);
+      alert(error.message);
     }
   };
 
