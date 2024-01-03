@@ -13,6 +13,7 @@ export type BtnProps = {
 };
 
 export type BurgerProps = {
+  className?: string;
   handler?: () => void;
 };
 
