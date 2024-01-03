@@ -1,7 +1,7 @@
 'use client';
 
 import Link from '@/node_modules/next/link';
-import { redirect } from '@/node_modules/next/navigation';
+import { redirect, useRouter } from '@/node_modules/next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { loginUser } from '@/redux/slices/userSlice';
 import { useAppDispatch } from '@/hooks/hooks';
@@ -22,9 +22,10 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<Inputs>({ mode: 'onChange' });
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
-    dispatch(loginUser({ data, redirect }));
+    dispatch(loginUser({ data, router }));
   };
 
   return (

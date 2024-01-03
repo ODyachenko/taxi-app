@@ -7,12 +7,16 @@ import { RedirectType } from '@/node_modules/next/navigation';
 
 type LoginUserType = {
   data: LoginFormData;
-  redirect: RedirectType;
+  router: RedirectType;
 };
 
 type RegisterUserType = {
   data: RegisterFormData;
-  redirect: RedirectType;
+  router: RedirectType;
+};
+
+type LogoutUserType = {
+  router: RedirectType;
 };
 
 // Log in user
@@ -20,14 +24,14 @@ export const loginUser = createAsyncThunk<
   undefined,
   LoginUserType,
   { rejectValue: string }
->('user/loginUser', async function ({ data, redirect }, { rejectWithValue }) {
+>('user/loginUser', async function ({ data, router }, { rejectWithValue }) {
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
     console.log(error.message);
     return rejectWithValue(error.message);
   }
-  redirect('/home');
+  router.push('/home');
 });
 
 // Sign Up User
@@ -35,18 +39,32 @@ export const registerUser = createAsyncThunk<
   undefined,
   RegisterUserType,
   { rejectValue: string }
->(
-  'user/registerUser',
-  async function ({ data, redirect }, { rejectWithValue }) {
-    const { error } = await supabase.auth.signUp(data);
+>('user/registerUser', async function ({ data, router }, { rejectWithValue }) {
+  const { error } = await supabase.auth.signUp(data);
+
+  if (error) {
+    console.log(error.message);
+    return rejectWithValue(error.message);
+  }
+  router.push('/home');
+});
+
+// Logout User User
+export const logoutUser = createAsyncThunk<
+  undefined,
+  LogoutUserType,
+  { rejectValue: string }
+>('user/logoutUser', async function ({ router }, { rejectWithValue }) {
+  if (confirm('Do you want to Log Out?')) {
+    const { error } = await supabase.auth.signOut();
 
     if (error) {
       console.log(error.message);
       return rejectWithValue(error.message);
     }
-    redirect('/home');
+    router.push('/login');
   }
-);
+});
 
 // Define a type for the slice state
 interface UserState {
@@ -99,14 +117,14 @@ export const userSlice = createSlice({
         state.loading = false;
         state.isAuth = true;
       })
-      // .addCase(logoutUser.pending, (state) => {
-      //   state.loading = true;
-      //   state.error = null;
-      // })
-      // .addCase(logoutUser.fulfilled, (state) => {
-      //   state.loading = false;
-      //   state.isAuth = false;
-      // })
+      .addCase(logoutUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.loading = false;
+        state.isAuth = false;
+      })
       // .addCase(updateUserData.pending, (state) => {
       //   state.loading = true;
       //   state.error = null;

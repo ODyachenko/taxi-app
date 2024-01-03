@@ -6,7 +6,7 @@ import Image from '@/node_modules/next/image';
 import { supabase } from '@/supabase/settings';
 import { v4 } from 'uuid';
 import './styles.scss';
-import { redirect } from '@/node_modules/next/navigation';
+import { redirect, useRouter } from '@/node_modules/next/navigation';
 import { RegisterFormData } from '@/types';
 import { useAppDispatch } from '@/hooks/hooks';
 import { registerUser } from '@/redux/slices/userSlice';
@@ -23,6 +23,7 @@ const RegisterForm: FC = () => {
     `${process.env.NEXT_PUBLIC_AVATARS_STORAGE}/avatar_private.png?t=2023-12-18T13%3A24%3A17.910Z`
   );
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<RegisterFormData> = (
     formData: RegisterFormData
@@ -37,7 +38,7 @@ const RegisterForm: FC = () => {
         },
       },
     };
-    dispatch(registerUser({ data, redirect }));
+    dispatch(registerUser({ data, router }));
   };
 
   const handleChangeFile = async (event: any) => {
