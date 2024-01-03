@@ -43,3 +43,10 @@ export type LoginFormData = {
   email: string;
   password: string;
 };
+
+export type RegisterFormData = {
+  avatarUrl?: string;
+  fullName: string;
+  email: string;
+  password: string;
+};

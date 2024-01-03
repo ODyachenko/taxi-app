@@ -15,7 +15,7 @@ const Nav: FC = () => {
       <div className="container">
         <User />
         <NavList />
-        <Btn value="Sign Up To Drive" weigth="bold" />
+        {/* <Btn value="Sign Up To Drive" weigth="bold" /> */}
       </div>
     </nav>
   );

@@ -1,10 +1,14 @@
 'use client';
 
-import Main from '@/components/Main/Main';
 import useCheckAuth from '@/hooks/useCheckAuth';
+import Logo from '@/UI/Logo';
 
-export default function Home() {
+export default function Splash() {
   useCheckAuth();
 
-  return <Main />;
+  return (
+    <div className="splash">
+      <Logo color="#fff" />
+    </div>
+  );
 }

@@ -1,16 +1,13 @@
 'use client';
 
-import React, { useEffect } from 'react';
 import Link from '@/node_modules/next/link';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import Btn from '@/UI/Btn/Btn';
-import Field from '@/UI/Field/Field';
-import './styles.scss';
-import { supabase } from '@/supabase/settings';
-import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
-import { setCurrentUser, setIsAuth } from '@/redux/slices/userSlice';
 import { redirect } from '@/node_modules/next/navigation';
-import useCheckAuth from '@/hooks/useCheckAuth';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { loginUser } from '@/redux/slices/userSlice';
+import { useAppDispatch } from '@/hooks/hooks';
+import Field from '@/UI/Field/Field';
+import Btn from '@/UI/Btn/Btn';
+import './styles.scss';
 
 type Inputs = {
   email: string;
@@ -24,25 +21,10 @@ const LoginForm = () => {
     reset,
     formState: { errors },
   } = useForm<Inputs>({ mode: 'onChange' });
-  const { isAuth } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
-  useCheckAuth();
-  useEffect(() => {
-    isAuth && redirect('/');
-  }, [isAuth]);
-
-  const onSubmit: SubmitHandler<Inputs> = async (formData: Inputs) => {
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword(formData);
-
-      if (error) {
-        throw error;
-      }
-    } catch (error) {
-      console.error(error);
-      alert(error.message);
-    }
+  const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
+    dispatch(loginUser({ data, redirect }));
   };
 
   return (
@@ -72,7 +54,7 @@ const LoginForm = () => {
         register={{
           ...register('password', {
             required: 'This field is required',
-            minLength: { value: 5, message: 'Min length is 5' },
+            minLength: { value: 6, message: 'Min length is 6' },
           }),
         }}
       />

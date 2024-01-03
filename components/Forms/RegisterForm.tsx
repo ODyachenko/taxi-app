@@ -1,23 +1,15 @@
-'use client';
-
 import React, { FC, useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Field from '@/UI/Field/Field';
 import Btn from '@/UI/Btn/Btn';
 import Image from '@/node_modules/next/image';
-import useCheckAuth from '@/hooks/useCheckAuth';
-import { useAppSelector } from '@/hooks/hooks';
-import { redirect } from '@/node_modules/next/navigation';
 import { supabase } from '@/supabase/settings';
 import { v4 } from 'uuid';
 import './styles.scss';
-
-type Inputs = {
-  avatarUrl?: string;
-  fullName: string;
-  email: string;
-  password: string;
-};
+import { redirect } from '@/node_modules/next/navigation';
+import { RegisterFormData } from '@/types';
+import { useAppDispatch } from '@/hooks/hooks';
+import { registerUser } from '@/redux/slices/userSlice';
 
 const RegisterForm: FC = () => {
   const {
@@ -25,38 +17,27 @@ const RegisterForm: FC = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<Inputs>({ mode: 'onChange' });
+  } = useForm<RegisterFormData>({ mode: 'onChange' });
 
   const [avatar, setAvatar] = useState(
     `${process.env.NEXT_PUBLIC_AVATARS_STORAGE}/avatar_private.png?t=2023-12-18T13%3A24%3A17.910Z`
   );
-  const { isAuth } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
-  useCheckAuth();
-  useEffect(() => {
-    isAuth && redirect('/');
-  }, [isAuth]);
-
-  const onSubmit: SubmitHandler<Inputs> = async (formData: Inputs) => {
-    try {
-      const { data, error } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
-          data: {
-            fullName: formData.fullName,
-            avatarUrl: avatar,
-          },
+  const onSubmit: SubmitHandler<RegisterFormData> = (
+    formData: RegisterFormData
+  ) => {
+    const data = {
+      email: formData.email,
+      password: formData.password,
+      options: {
+        data: {
+          fullName: formData.fullName,
+          avatarUrl: avatar,
         },
-      });
-      if (error) {
-        throw error;
-      }
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-      alert(error.message);
-    }
+      },
+    };
+    dispatch(registerUser({ data, redirect }));
   };
 
   const handleChangeFile = async (event: any) => {
