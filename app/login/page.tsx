@@ -1,13 +1,12 @@
 import LoginForm from '@/components/Forms/LoginForm';
+import Wrapper from '@/components/Wrapper/Wrapper';
 import React, { FC } from 'react';
 
 const page: FC = () => {
   return (
-    <section className="login block">
-      <div className="container">
-        <LoginForm />
-      </div>
-    </section>
+    <Wrapper className="login">
+      <LoginForm />
+    </Wrapper>
   );
 };
 
