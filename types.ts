@@ -1,4 +1,12 @@
+import React from 'react';
+
+export type Wrapper = {
+  className: string;
+  children: React.ReactNode;
+};
+
 export type BtnProps = {
+  className?: string;
   value: string;
   weigth: string;
   handler?: () => void;
@@ -18,4 +26,9 @@ export type User = {
   phone: string;
   fullName: string;
   avatarUrl: string;
+};
+
+export type LoginFormData = {
+  email: string;
+  password: string;
 };
