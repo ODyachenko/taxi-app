@@ -12,6 +12,10 @@ export type BtnProps = {
   handler?: () => void;
 };
 
+export type BurgerProps = {
+  handler?: () => void;
+};
+
 export type Field = {
   className?: string;
   type: 'text' | 'email' | 'password' | 'number' | 'search';
