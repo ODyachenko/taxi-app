@@ -16,6 +16,12 @@ export type BurgerProps = {
   handler?: () => void;
 };
 
+export type Link = {
+  id: string;
+  value: string;
+  icon: React.ReactNode;
+};
+
 export type Field = {
   className?: string;
   type: 'text' | 'email' | 'password' | 'number' | 'search';
