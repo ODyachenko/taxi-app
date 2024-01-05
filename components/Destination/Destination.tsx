@@ -13,14 +13,12 @@ const Destination: FC = () => {
   };
 
   return (
-    <section className="destination block">
-      <div className="container">
-        {isClicked ? (
-          <EnterDestination handler={onCLickHandler} />
-        ) : (
-          <ChooseDestination handler={onCLickHandler} />
-        )}
-      </div>
+    <section className="destination">
+      {isClicked ? (
+        <EnterDestination handler={onCLickHandler} />
+      ) : (
+        <ChooseDestination handler={onCLickHandler} />
+      )}
     </section>
   );
 };

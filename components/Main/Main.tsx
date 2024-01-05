@@ -6,10 +6,12 @@ import './styles.scss';
 
 const Main: FC = () => {
   return (
-    <main className="main">
+    <main className="main block">
       <Nav />
-      <Map />
-      <Destination />
+      <div className="container">
+        <Map />
+        <Destination />
+      </div>
     </main>
   );
 };

@@ -1,12 +1,11 @@
 'use client';
 
-import Image from '@/node_modules/next/image';
 import React, { FC } from 'react';
-import map from '@/public/map.jpeg';
 import './styles.scss';
 import Burger from '@/UI/Burger/Burger';
 import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 import { setIsShow } from '@/redux/slices/NavSlice';
+import { Map as MapBox } from 'react-map-gl';
 
 const Map: FC = () => {
   const { isShow } = useAppSelector((state) => state.nav);
@@ -18,7 +17,16 @@ const Map: FC = () => {
         className={isShow ? 'is-active' : ''}
         handler={() => dispatch(setIsShow(!isShow))}
       />
-      <Image src={map} alt="map" />
+      <MapBox
+        mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+        initialViewState={{
+          longitude: 30.523333,
+          latitude: 50.450001,
+          zoom: 14,
+        }}
+        style={{ width: '100%', height: 500, borderRadius: 11 }}
+        mapStyle="mapbox://styles/mapbox/streets-v9"
+      />
     </div>
   );
 };
